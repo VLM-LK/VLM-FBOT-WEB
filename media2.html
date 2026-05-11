@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Immersive Media</title>
+<title>VLM Media</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -83,7 +83,7 @@ video, img, iframe {
 <script>
 const tg = window.Telegram?.WebApp;
 
-if (tg) {
+if (tg && tg.initDataUnsafe) {
   tg.ready();
   tg.expand();
   tg.disableVerticalSwipes?.();
@@ -98,16 +98,9 @@ let mediaUrl = params.get("url");
 // telegram startapp mode
 const telegramSlug = tg?.initDataUnsafe?.start_param || params.get("startapp");
 
-/* 🔥 SAFE SLUG → URL MAPPING (IMPORTANT) */
-const MEDIA_DB = {
-  "abc123": "https://example.com/video.mp4",
-  "img1": "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d",
-  "demo": "https://www.w3schools.com/html/mov_bbb.mp4"
-};
-
 /* resolve slug */
 if (telegramSlug) {
-  mediaUrl = MEDIA_DB[telegramSlug] || mediaUrl;
+  mediaUrl = `https://vlm-lk.github.io/VLM-FBOT-WEB/${telegramSlug}`;
 }
 
 /* APP ROOT */
