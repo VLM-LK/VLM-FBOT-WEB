@@ -69,7 +69,7 @@ let forceIframe = params.get("iframe") === "1";
 
 // if opened via Telegram like ?startapp=abc123
 const slug = startParam || params.get("startapp") || params.get("start");
-
+let jsdeliver = null;
 if(slug){
   console.log("START SLUG:", slug);
   var [r,p,s] = slug.split("_");
@@ -80,6 +80,7 @@ if(slug){
   };
   //https://raw.githubusercontent.com/USERNAME/REPO/BRANCH/PATH_TO_FILE
   mediaUrl = `https://raw.githubusercontent.com/VLM-LK/VLM-GH-BOT${r}/main/${paths[p]}/${s}.${p=="t"?"jpg":"css"}`;
+  jsdeliver =`https://cdn.jsdelivr.net/gh/VLM-LK/VLM-GH-BOT${r}@main/${path[p]}/${s}.${p=="t"?"jpg":"css"}`;
 }
 
 if(!mediaUrl){
@@ -114,6 +115,13 @@ if(!mediaUrl){
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;
+    video.onerror = (){
+      if(jsdeliver){
+        video.src = jsdeliver;
+      }else{
+        
+      }
+    }
 
     if(!allowDownload){
       video.controlsList = "nodownload";
