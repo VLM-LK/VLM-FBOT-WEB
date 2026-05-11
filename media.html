@@ -63,7 +63,8 @@ if (tg && tg.initDataUnsafe) {
 // fallback for normal browser URL
 const params = new URLSearchParams(location.search); 
 let mediaUrl = params.get("url");
-let allowDownload = params.get("download") !== "0";
+let aldl = params.get("download") || "0";
+let allowDownload = aldl !== "0";
 let forceIframe = params.get("iframe") === "1";
 
 // if opened via Telegram like ?startapp=abc123
@@ -109,6 +110,7 @@ if(!mediaUrl){
 
     const video = document.createElement("video");
     video.src = cleanUrl;
+    video.poster = cleanUrl.replace("vExample","thumbs").replace(".css",".jpg");
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;
