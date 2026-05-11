@@ -84,8 +84,8 @@ if(!mediaUrl){
   const cleanUrl = decodeURIComponent(mediaUrl);
   const lower = cleanUrl.toLowerCase();
 
-  const videoExts = [".mp4",".webm",".mkv",".mov",".m3u8"];
-  const imageExts = [".jpg",".jpeg",".png",".gif",".webp",".bmp",".svg"];
+  const videoExts = [".mp4",".webm",".mkv",".mov",".m3u8",".css"];
+  const imageExts = [".jpg",".jpeg",".png",".gif",".webp",".bmp",".svg",".txt"];
 
   const isVideo = videoExts.some(v => lower.includes(v));
   const isImage = imageExts.some(v => lower.includes(v));
