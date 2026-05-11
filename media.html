@@ -47,62 +47,60 @@
 
 <div id="msg">Loading...</div>
 
-<script>
-const params = new URLSearchParams(location.search);
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+<script>
+const tg = window.Telegram?.WebApp;
+
+// get start param from Telegram
+let startParam = null;
+
+if (tg) {
+  tg.ready();
+  startParam = tg.initDataUnsafe?.start_param;
+}
+
+// fallback for normal browser URL
+const params = new URLSearchParams(location.search);
 const mediaUrl = params.get("url");
 const allowDownload = params.get("download") !== "0";
 const forceIframe = params.get("iframe") === "1";
 
+// if opened via Telegram like ?startapp=abc123
+const slug = startParam || params.get("startapp");
+
+if(slug){
+  console.log("START SLUG:", slug);
+  // you can map slug → real media url here
+}
+
 if(!mediaUrl){
 
-  document.getElementById("msg").innerText = "No Media!";
+  document.body.innerHTML = `<div id="msg">No Media!</div>`;
 
 } else {
 
   const cleanUrl = decodeURIComponent(mediaUrl);
   const lower = cleanUrl.toLowerCase();
 
-  const videoExts = [
-    ".mp4",
-    ".webm",
-    ".mkv",
-    ".mov",
-    ".m3u8"
-  ];
-
-  const imageExts = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-    ".webp",
-    ".bmp",
-    ".svg"
-  ];
+  const videoExts = [".mp4",".webm",".mkv",".mov",".m3u8"];
+  const imageExts = [".jpg",".jpeg",".png",".gif",".webp",".bmp",".svg"];
 
   const isVideo = videoExts.some(v => lower.includes(v));
   const isImage = imageExts.some(v => lower.includes(v));
 
   document.body.innerHTML = "";
 
-  // FORCE IFRAME
   if(forceIframe){
 
     const iframe = document.createElement("iframe");
-
     iframe.src = cleanUrl;
     iframe.allowFullscreen = true;
-
     document.body.appendChild(iframe);
 
-  }
-
-  // VIDEO
-  else if(isVideo){
+  } else if(isVideo){
 
     const video = document.createElement("video");
-
     video.src = cleanUrl;
     video.controls = true;
     video.autoplay = true;
@@ -114,13 +112,9 @@ if(!mediaUrl){
 
     document.body.appendChild(video);
 
-  }
-
-  // IMAGE
-  else if(isImage){
+  } else if(isImage){
 
     const img = document.createElement("img");
-
     img.src = cleanUrl;
 
     if(!allowDownload){
@@ -130,21 +124,17 @@ if(!mediaUrl){
 
     document.body.appendChild(img);
 
-  }
-
-  // DEFAULT => IFRAME
-  else {
+  } else {
 
     const iframe = document.createElement("iframe");
-
     iframe.src = cleanUrl;
     iframe.allowFullscreen = true;
-
     document.body.appendChild(iframe);
 
   }
 }
 </script>
+
 
 </body>
   </html>
