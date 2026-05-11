@@ -71,8 +71,13 @@ const slug = startParam || params.get("startapp");
 
 if(slug){
   console.log("START SLUG:", slug);
+  var [r,p,s] = slug.split("_");
   // you can map slug → real media url here
-  mediaUrl = `https://vlm-lk.github.io/VLM-FBOT-WEB/${slug}`;
+  var paths={
+    v:"vExample",
+    t:"thumb"
+  };
+  mediaUrl = `https://vlm-lk.github.io/VLM-GH-BOT${r}/${paths[p]}/${s}`;
 }
 
 if(!mediaUrl){
