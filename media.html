@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Media Viewer</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html,body{
+      width:100%;
+      height:100%;
+      background:#000;
+      overflow:hidden;
+      font-family:sans-serif;
+    }
+
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    img,
+    video,
+    iframe{
+      width:100%;
+      height:100%;
+      border:none;
+      background:#000;
+      object-fit:contain;
+    }
+
+    #msg{
+      color:#fff;
+      font-size:22px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="msg">Loading...</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+
+const mediaUrl = params.get("url");
+const allowDownload = params.get("download") !== "0";
+const forceIframe = params.get("iframe") === "1";
+
+if(!mediaUrl){
+
+  document.getElementById("msg").innerText = "No media url";
+
+} else {
+
+  const cleanUrl = decodeURIComponent(mediaUrl);
+  const lower = cleanUrl.toLowerCase();
+
+  const videoExts = [
+    ".mp4",
+    ".webm",
+    ".mkv",
+    ".mov",
+    ".m3u8"
+  ];
+
+  const imageExts = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".bmp",
+    ".svg"
+  ];
+
+  const isVideo = videoExts.some(v => lower.includes(v));
+  const isImage = imageExts.some(v => lower.includes(v));
+
+  document.body.innerHTML = "";
+
+  // FORCE IFRAME
+  if(forceIframe){
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src = cleanUrl;
+    iframe.allowFullscreen = true;
+
+    document.body.appendChild(iframe);
+
+  }
+
+  // VIDEO
+  else if(isVideo){
+
+    const video = document.createElement("video");
+
+    video.src = cleanUrl;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+
+    if(!allowDownload){
+      video.controlsList = "nodownload";
+    }
+
+    document.body.appendChild(video);
+
+  }
+
+  // IMAGE
+  else if(isImage){
+
+    const img = document.createElement("img");
+
+    img.src = cleanUrl;
+
+    if(!allowDownload){
+      img.oncontextmenu = e => e.preventDefault();
+      img.draggable = false;
+    }
+
+    document.body.appendChild(img);
+
+  }
+
+  // DEFAULT => IFRAME
+  else {
+
+    const iframe = document.createElement("iframe");
+
+    iframe.src = cleanUrl;
+    iframe.allowFullscreen = true;
+
+    document.body.appendChild(iframe);
+
+  }
+}
+</script>
+
+</body>
+  </html>
