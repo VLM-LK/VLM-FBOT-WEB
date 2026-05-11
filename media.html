@@ -80,7 +80,7 @@ if(slug){
   };
   //https://raw.githubusercontent.com/USERNAME/REPO/BRANCH/PATH_TO_FILE
   mediaUrl = `https://raw.githubusercontent.com/VLM-LK/VLM-GH-BOT${r}/main/${paths[p]}/${s}.${p=="t"?"jpg":"css"}`;
-  jsdeliver =`https://cdn.jsdelivr.net/gh/VLM-LK/VLM-GH-BOT${r}@main/${path[p]}/${s}.${p=="t"?"jpg":"css"}`;
+  jsdeliver =`https://cdn.jsdelivr.net/gh/VLM-LK/VLM-GH-BOT${r}@main/${paths[p]}/${s}.${p=="t"?"jpg":"css"}`;
 }
 
 if(!mediaUrl){
@@ -90,6 +90,7 @@ if(!mediaUrl){
 } else {
 
   const cleanUrl = decodeURIComponent(mediaUrl);
+  const cleanJsDUrl = decodeURIComponent(jsdeliver);
   const lower = cleanUrl.toLowerCase();
 
   const videoExts = [".mp4",".webm",".mkv",".mov",".m3u8",".css"];
@@ -110,14 +111,14 @@ if(!mediaUrl){
   } else if(isVideo){
 
     const video = document.createElement("video");
-    video.src = cleanUrl;
+    video.src = cleanJsDUrl; //cleanUrl;
     video.poster = cleanUrl.replace("vExample","thumbs").replace(".css",".jpg");
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;
-    video.onerror = (){
+    video.onerror = () => {
       if(jsdeliver){
-        video.src = jsdeliver;
+        video.src = cleanUrl; //cleanJsDUrl;
       }else{
         
       }
