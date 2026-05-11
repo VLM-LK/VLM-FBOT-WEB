@@ -133,7 +133,11 @@ if(!mediaUrl){
   } else if(isImage){
 
     const img = document.createElement("img");
-    img.src = cleanUrl;
+    img.src = cleanJsDUrl; //cleanUrl;
+
+    img.onerror = ()=>{
+       img.src= cleanUrl; //cleanJsDUrl;
+    }
 
     if(!allowDownload){
       img.oncontextmenu = e => e.preventDefault();
