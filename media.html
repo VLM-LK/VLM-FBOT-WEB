@@ -67,7 +67,7 @@ let allowDownload = params.get("download") !== "0";
 let forceIframe = params.get("iframe") === "1";
 
 // if opened via Telegram like ?startapp=abc123
-const slug = startParam || params.get("startapp");
+const slug = startParam || params.get("startapp") || params.get("start");
 
 if(slug){
   console.log("START SLUG:", slug);
