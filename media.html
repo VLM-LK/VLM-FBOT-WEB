@@ -55,7 +55,7 @@ const tg = window.Telegram?.WebApp;
 // get start param from Telegram
 let startParam = null;
 
-if (tg) {
+if (tg && tg.initDataUnsafe) {
   tg.ready();
   startParam = tg.initDataUnsafe?.start_param;
 }
