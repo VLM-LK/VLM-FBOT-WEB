@@ -60,6 +60,7 @@
       font-weight:700;
       cursor:pointer;
       box-shadow:0 0 10px rgba(0,0,0,.4);
+      display:none;
     }
 
     #progressBox{
@@ -105,6 +106,12 @@
 
 <script>
 
+const downloadBtn = document.getElementById("downloadBtn");
+const progressBox = document.getElementById("progressBox");
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+  
+
 const tg = window.Telegram?.WebApp;
 
 let startParam = null;
@@ -134,6 +141,9 @@ if (tg && tg.initDataUnsafe) {
 
       if(d.ok === true){
         console.log("OK TRUE");
+        downloadBtn.style.display="block";
+      }else{
+        downloadBtn.style.display="none";
       }
 
     })
@@ -179,10 +189,6 @@ if(slug){
     `https://cdn.jsdelivr.net/gh/VLM-LK/VLM-GH-BOT${r}@main/${paths[p]}/${s}.${p=="t"?"jpg":"css"}`;
 }
 
-const downloadBtn = document.getElementById("downloadBtn");
-const progressBox = document.getElementById("progressBox");
-const progressText = document.getElementById("progressText");
-const progressBar = document.getElementById("progressBar");
 
 if(!mediaUrl){
 
