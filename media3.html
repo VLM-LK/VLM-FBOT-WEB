@@ -218,7 +218,7 @@ if(!mediaUrl){
   document.getElementById("msg")?.remove();
 
   // DOWNLOAD BUTTON
-  downloadBtn.onclick = async ()=>{
+  /*downloadBtn.onclick = async ()=>{
 
     try{
 
@@ -300,7 +300,31 @@ if(!mediaUrl){
       progressText.innerText = "Download Failed";
     }
 
-  };
+  };*/
+  downloadBtn.onclick = () => {
+
+  const a = document.createElement("a");
+
+  a.href = cleanJsDUrl;
+
+  a.target = "_blank";
+
+  a.rel = "noopener";
+
+  if(isVideo){
+    a.download = "video.mp4";
+  }else if(isImage){
+    a.download = "image.jpg";
+  }else{
+    a.download = "file";
+  }
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+};
 
   // FORCE IFRAME
   if(forceIframe){
